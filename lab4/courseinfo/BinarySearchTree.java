@@ -59,7 +59,7 @@ public class BinarySearchTree {
 	   // Dummy return value, to make it compile. Should be replace with proper algorithm.
 	}
 
-	private int size(BSTNode node){
+	private int size(BSTNode node){  // counts nodes recursively
 		int size = 1;
 		if (node == null) {
 			return 0;
@@ -78,11 +78,28 @@ public class BinarySearchTree {
 	 * find: Find a course given a course code
 	 */
 	public BSTNode find(String courseCode) {
-
-
-	    return null; // Dummy return value. Should be replaced with a proper algorithm.
+		return find(root, courseCode);
+		//return null; // Dummy return value. Should be replaced with a proper algorithm.
 	}
+
 	
+	private BSTNode find(BSTNode target, String courseCode){
+
+		if (target == null) {
+			return null;
+		} else {
+
+			if (courseCode.compareTo(target.getCourseCode()) == 0) { 
+				return target;
+			}
+			else if (courseCode.compareTo(target.getCourseCode()) < 0) { // go left
+				return find(target.getLeftChild(), courseCode);
+			}
+			else {
+				return find(target.getRightChild(), courseCode);	
+			}
+		}
+	}
 	
 	/**
 	 * Nodes in the search tree
