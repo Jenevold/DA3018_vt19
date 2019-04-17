@@ -53,14 +53,26 @@ public class BinarySearchTree {
 	 * size: Count the number of nodes in the search tree
 	 */
 	
-	public int size() {
-	    return 0; // Dummy return value, to make it compile. Should be replace with proper algorithm.
+	public int size(BSTNode tree) {
+		if (tree == null) { 
+			return 0; // the size is zero when no tree exists
+		}
+		else{ // recursivley go down the tree
+			int size = 1;
+			size += size(tree.getLeftChild());
+			size += size(tree.getRightChild());
+			return size; // returns the accumulated size
+		}
+
+	   // Dummy return value, to make it compile. Should be replace with proper algorithm.
 	}
 	
 	/**
 	 * find: Find a course given a course code
 	 */
 	public BSTNode find(String courseCode) {
+		
+
 	    return null; // Dummy return value. Should be replaced with a proper algorithm.
 	}
 	
