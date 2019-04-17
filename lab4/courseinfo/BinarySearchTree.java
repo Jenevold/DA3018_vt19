@@ -8,7 +8,7 @@ public class BinarySearchTree {
 	BSTNode root=null;
 	
 	public BinarySearchTree() {
-		// Empty constructor?
+		// BinarySearchTree tree = new BinarySearchTree();// Empty constructor?
 	}
 	
 	/**
@@ -41,11 +41,11 @@ public class BinarySearchTree {
 			if (node.getCourseCode().compareTo(currentKey) < 0) { // left string "before" right string
 				left = insert(left, node);
 			} else if (node.getCourseCode().compareTo(currentKey) > 0) { // left string "after" right string
-				right = insert(left, node);
+				right = insert(right, node); // right instead of left?
 			}
 			
 			root.setChildren(left, right);
-			return root;
+			return node; // return node? instead of root
 		}
 	}
 	
