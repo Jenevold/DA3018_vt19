@@ -45,7 +45,7 @@ public class BinarySearchTree {
 			}
 			
 			root.setChildren(left, right);
-			return node; // return node? instead of root
+			return root; // return node? instead of root
 		}
 	}
 	
@@ -53,19 +53,26 @@ public class BinarySearchTree {
 	 * size: Count the number of nodes in the search tree
 	 */
 	
-	public int size() {      // THIS IS NOT TESTED!!!!
-		if (this == null) { 
-			return 0; // the size is zero when no tree exists
-		}
-		else{ // recursivley go down the tree
-			int size = 1;
-			size += size(this.getLeftChild());
-			size += size(this.getRightChild());
-			return size; // returns the accumulated size
-		}
+	public int size() {  
+		return (size(root));
 
 	   // Dummy return value, to make it compile. Should be replace with proper algorithm.
 	}
+
+	private int size(BSTNode node){
+		int size = 1;
+		if (node == null) {
+			return 0;
+		}
+		if (node.getLeftChild() != null) {
+			size += size(node.getLeftChild());
+		}
+		if (node.getRightChild() != null) {
+			size += size(node.getRightChild());
+		}
+		return size;
+	}
+
 	
 	/**
 	 * find: Find a course given a course code
