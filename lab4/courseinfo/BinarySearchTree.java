@@ -42,7 +42,7 @@ public class BinarySearchTree {
 				left = insert(left, node);
 			} else if (node.getCourseCode().compareTo(currentKey) > 0) { // left string "after" right string
 				right = insert(right, node); // right instead of left?
-			}
+			} // add else if for when courseCode already exsists in tree shoudl reain but the information should overwrite.
 			
 			root.setChildren(left, right);
 			return root; // return node? instead of root
@@ -95,7 +95,7 @@ public class BinarySearchTree {
 			else if (courseCode.compareTo(target.getCourseCode()) < 0) { // go left
 				return find(target.getLeftChild(), courseCode);
 			}
-			else {
+			else { 																			// go right
 				return find(target.getRightChild(), courseCode);	
 			}
 		}
