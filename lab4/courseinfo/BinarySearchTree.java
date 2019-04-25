@@ -167,12 +167,15 @@ public class BinarySearchTree {
 		remove(root, courseCode);
 	}
 
-	private void remove(BSTNode root, String courseCode) {
-		BSTNode target = find(root, courseCode);
-		BSTNode parent = findParent(root, courseCode);
+	private void remove(BSTNode rootNode, String courseCode) {
+		BSTNode target = find(rootNode, courseCode);
+		BSTNode parent = findParent(rootNode, courseCode);
 		if (target.getLeftChild() != null && target.getRightChild() != null) {
 		    BSTNode newNode = findSmallest(target.getRightChild());
-		    if (isRightChild(parent, courseCode)==true) {
+		    if (target == rootNode) {
+		    	root = newNode;
+		    	root.setChildren(target.getLeftChild(), target.getRightChild());
+			} else if (isRightChild(parent, courseCode)) {
                 parent.setChildren(parent.getLeftChild(), newNode);
                 newNode.setChildren(target.getLeftChild(), target.getRightChild());
             } else {
@@ -180,38 +183,44 @@ public class BinarySearchTree {
 		        newNode.setChildren(target.getLeftChild(), target.getRightChild());
             }
             // Case 1:
-            // The target node that we want to remove have both left and right childes.
+            // The target rootNode that we want to remove have both left and right childes.
             // The smallest leaf in the left sub-tree to target will replace target.
             //
 		} else if (target.getLeftChild()!=null) {
-		    if (isRightChild(parent, courseCode)==true) {
+		    if (target == rootNode) {
+		    	root = target.getLeftChild();
+			} else if (isRightChild(parent, courseCode)) {
                 parent.setChildren(parent.getLeftChild(), target.getLeftChild());
             } else {
 		        parent.setChildren(target.getLeftChild(), parent.getRightChild());
             }
 			// Case 2:
-            // The target node only has a right child:
+            // The target rootNode only has a right child:
             // Replace target with the right child.
             //
 		} else if (target.getRightChild()!=null) {
-            if (isRightChild(parent, courseCode)==true) {
+			if (target == rootNode) {
+				root = target.getRightChild();
+			} else if (isRightChild(parent, courseCode)) {
                 parent.setChildren(parent.getLeftChild(), target.getRightChild());
             } else {
                 parent.setChildren(target.getRightChild(), parent.getRightChild());
             }
             // Case 3:
-            // The target node only has a left child:
+            // The target rootNode only has a left child:
             // Replace target with the left child
             //
 		} else {
-            if (isRightChild(parent, courseCode)==true) {
+			if (target == rootNode) {
+				root = null;
+			} else if (isRightChild(parent, courseCode)) {
                 parent.setChildren(parent.getLeftChild(), null);
             } else {
                 parent.setChildren(null, parent.getRightChild());
             }
             // Case 4:
-            // The target node has no children:
-            // Replace the target node with null.
+            // The target rootNode has no children:
+            // Replace the target rootNode with null.
 		}
 	}
 	
