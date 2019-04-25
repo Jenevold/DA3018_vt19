@@ -143,22 +143,9 @@ public class BinarySearchTree {
 	}
 
 	/**
-	 * findLargest: Finds the largest leaf of a subtree of a binary search tree.
-	 * @param node, the node that marks the starting point of the subtree
-	 * @return The largest leaf of the subtree/branch.
-	 */
-	private BSTNode findLargest(BSTNode node) {
-		if (node.getRightChild() == null) {
-			return node;
-		} else {
-			return findLargest(node.getRightChild());
-		}
-	}
-
-	/**
-	 *
-	 * @param node, a node
-	 * @param courseCode
+	 * isRightChild: Gives true if the right child of node has the given cours code.
+	 * @param node, a BST node
+	 * @param courseCode, e.g 'MM2018'
 	 */
 	private Boolean isRightChild(BSTNode node, String courseCode) {
 		if (node.getRightChild().getCourseCode().equals(courseCode)) {
@@ -169,8 +156,8 @@ public class BinarySearchTree {
 	}
 
 	/**
-	 * remove: Remove a course given a course code
-	 * @param courseCode
+	 * remove: Remove a node (a course) given a course code
+	 * @param courseCode, e.g 'MM2018'
 	 */
 	public void remove(String courseCode) {
 		remove(root, courseCode);
@@ -180,18 +167,47 @@ public class BinarySearchTree {
 		BSTNode target = find(root, courseCode);
 		BSTNode parent = findParent(root, courseCode);
 		if (target.getLeftChild() != null && target.getRightChild() != null) {
-			if (isRightChild(parent, courseCode) == true) {
-				BSTNode right = findSmallest(pa)
-				parent.setChildren(parent.getLeftChild(), );
-			}
-			// Då skall det minsta lövet i det högra sub-trädet (till target) ersätta target.
-			// Gör en hjälpfunktion som letar fram det "vänstraste" lövet på rightChild.
+		    BSTNode newNode = findSmallest(target.getRightChild());
+		    if (isRightChild(parent, courseCode)==true) {
+                parent.setChildren(parent.getLeftChild(), newNode);
+                newNode.setChildren(target.getLeftChild(), target.getRightChild());
+            } else {
+		        parent.setChildren(newNode, parent.getRightChild());
+		        newNode.setChildren(target.getLeftChild(), target.getRightChild());
+            }
+            // Case 1:
+            // The target node that we want to remove have both left and right childes.
+            // The smallest leaf in the left sub-tree to target will replace target.
+            //
 		} else if (target.getLeftChild()!=null) {
-			// gör en hjälpfunktion som flyttar vänstersidan "uppåt" ett hack i trädet
+		    if (isRightChild(parent, courseCode)==true) {
+                parent.setChildren(parent.getLeftChild(), target.getLeftChild());
+            } else {
+		        parent.setChildren(target.getLeftChild(), parent.getRightChild());
+            }
+			// Case 2:
+            // The target node only has a right child:
+            // Replace target with the right child.
+            //
 		} else if (target.getRightChild()!=null) {
-
+            if (isRightChild(parent, courseCode)==true) {
+                parent.setChildren(parent.getLeftChild(), target.getRightChild());
+            } else {
+                parent.setChildren(target.getRightChild(), parent.getRightChild());
+            }
+            // Case 3:
+            // The target node only has a left child:
+            // Replace target with the left child
+            //
 		} else {
-			// sätt target = null, men hur??
+            if (isRightChild(parent, courseCode)==true) {
+                parent.setChildren(parent.getLeftChild(), null);
+            } else {
+                parent.setChildren(null, parent.getRightChild());
+            }
+            // Case 4:
+            // The target node has no children:
+            // Replace the target node with null.
 		}
 	}
 	
