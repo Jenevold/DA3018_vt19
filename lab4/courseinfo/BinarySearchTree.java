@@ -48,9 +48,10 @@ public class BinarySearchTree {
 			return root; // return node? instead of root
 		}
 	}
-	
+
 	/**
 	 * size: Count the number of nodes in the search tree
+	 * @return
 	 */
 	
 	public int size() {  
@@ -73,16 +74,23 @@ public class BinarySearchTree {
 		return size;
 	}
 
-	
+
 	/**
-	 * find: Find a course given a course code
+	 *
+	 * @param courseCode
+	 * @return
 	 */
 	public BSTNode find(String courseCode) {
 		return find(root, courseCode);
 		//return null; // Dummy return value. Should be replaced with a proper algorithm.
 	}
 
-	
+	/**
+	 *
+	 * @param target
+	 * @param courseCode
+	 * @return
+	 */
 	private BSTNode find(BSTNode target, String courseCode){
 
 		if (target == null) {
@@ -98,6 +106,92 @@ public class BinarySearchTree {
 			else { 																			// go right
 				return find(target.getRightChild(), courseCode);	
 			}
+		}
+	}
+
+	/**
+	 * findParent: works allmost like find but returns the parent of the node with the matching courseCode
+	 * @param target, The node we are looking at
+	 * @param courseCode, the course code
+	 * @return the parent of the node with the matching courseCode
+	 */
+	private BSTNode findParent(BSTNode target, String courseCode) {
+		BSTNode left = target.getLeftChild();
+		BSTNode right = target.getRightChild();
+		if (courseCode.compareTo(left.getCourseCode()) == 0 || courseCode.compareTo(right.getCourseCode()) == 0) {
+			return target;
+		}
+		else if (courseCode.compareTo(target.getCourseCode()) < 0) { // go left
+			return findParent(left, courseCode);
+		}
+		else { 							// go right
+			return findParent(right, courseCode);
+		}
+	}
+
+	/**
+	 * findSmallest: Finds the smallest leaf of a subtree of a binary search tree.
+	 * @param node, the node that marks the starting point of the subtree
+	 * @return  The smallest leaf of the subtree/branch.
+	 */
+	private BSTNode findSmallest(BSTNode node) {
+		if (node.getLeftChild() == null) {
+			return node;
+		} else {
+			return findSmallest(node.getLeftChild());
+		}
+	}
+
+	/**
+	 * findLargest: Finds the largest leaf of a subtree of a binary search tree.
+	 * @param node, the node that marks the starting point of the subtree
+	 * @return The largest leaf of the subtree/branch.
+	 */
+	private BSTNode findLargest(BSTNode node) {
+		if (node.getRightChild() == null) {
+			return node;
+		} else {
+			return findLargest(node.getRightChild());
+		}
+	}
+
+	/**
+	 *
+	 * @param node, a node
+	 * @param courseCode
+	 */
+	private Boolean isRightChild(BSTNode node, String courseCode) {
+		if (node.getRightChild().getCourseCode().equals(courseCode)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	/**
+	 * remove: Remove a course given a course code
+	 * @param courseCode
+	 */
+	public void remove(String courseCode) {
+		remove(root, courseCode);
+	}
+
+	private void remove(BSTNode root, String courseCode) {
+		BSTNode target = find(root, courseCode);
+		BSTNode parent = findParent(root, courseCode);
+		if (target.getLeftChild() != null && target.getRightChild() != null) {
+			if (isRightChild(parent, courseCode) == true) {
+				BSTNode right = findSmallest(pa)
+				parent.setChildren(parent.getLeftChild(), );
+			}
+			// Då skall det minsta lövet i det högra sub-trädet (till target) ersätta target.
+			// Gör en hjälpfunktion som letar fram det "vänstraste" lövet på rightChild.
+		} else if (target.getLeftChild()!=null) {
+			// gör en hjälpfunktion som flyttar vänstersidan "uppåt" ett hack i trädet
+		} else if (target.getRightChild()!=null) {
+
+		} else {
+			// sätt target = null, men hur??
 		}
 	}
 	
