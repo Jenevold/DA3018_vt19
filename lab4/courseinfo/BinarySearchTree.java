@@ -42,7 +42,11 @@ public class BinarySearchTree {
 				left = insert(left, node);
 			} else if (node.getCourseCode().compareTo(currentKey) > 0) { // left string "after" right string
 				right = insert(right, node); // right instead of left?
-			} // add else if for when courseCode already exsists in tree shoudl reain but the information should overwrite.
+			} else if (node.getCourseCode().compareTo(currentKey) == 0){ // add else if for when courseCode already exsists in tree shoudl reain but the information should overwrite.
+					
+
+
+			}
 			
 			root.setChildren(left, right);
 			return root; // return node? instead of root
@@ -55,7 +59,7 @@ public class BinarySearchTree {
 	 */
 	
 	public int size() {  
-		return (size(root));
+		return (size(root));  // add if root == null exception?
 
 	   // Dummy return value, to make it compile. Should be replace with proper algorithm.
 	}
