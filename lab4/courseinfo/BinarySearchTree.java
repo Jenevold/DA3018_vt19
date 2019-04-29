@@ -2,13 +2,13 @@ package courseinfo;
 
 /**
  * Store course information in a binary search tree
- * 
+ * where the root is the 'starting point' of the tree.
  */
 public class BinarySearchTree {
 	BSTNode root=null;
 	
 	public BinarySearchTree() {
-		// BinarySearchTree tree = new BinarySearchTree();// Empty constructor?
+		// Constructor: new BinarySearchTree will make an empty BST with a root = null.
 	}
 	
 	/**
@@ -25,9 +25,9 @@ public class BinarySearchTree {
 	
 	/**
 	 * Insert 'node' into the tree pointed at by 'root'.
-	 * @returns The node that should be the root of this subtree.
-	 * @param root
-	 * @param node
+	 * @return The node that should be the root of this subtree. //why?
+	 * @param root, the first node in a tree/subtree
+	 * @param node, the node that we want to insert
 	 * 
 	 * WARNING! This method has a bug, it does not behave according to specification!
 	 */
@@ -54,7 +54,7 @@ public class BinarySearchTree {
 
 	/**
 	 * size: Count the number of nodes in the search tree
-	 * @return
+	 * @return the number of nonempty nodes in the BST.
 	 */
 	
 	public int size() {  
@@ -79,7 +79,7 @@ public class BinarySearchTree {
 
 
 	/**
-	 *
+	 * find: For receving
 	 * @param courseCode
 	 * @return
 	 */
