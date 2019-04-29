@@ -43,9 +43,8 @@ public class BinarySearchTree {
 			} else if (node.getCourseCode().compareTo(currentKey) > 0) { // left string "after" right string
 				right = insert(right, node); // right instead of left?
 			} else if (node.getCourseCode().compareTo(currentKey) == 0){ // add else if for when courseCode already exsists in tree shoudl reain but the information should overwrite.
-					
-
-
+			    root.courseName = node.getCourseName(); // Resave the old node with new updated info; name and credits
+			    root.credits = node.getCredits();
 			}
 			
 			root.setChildren(left, right);
