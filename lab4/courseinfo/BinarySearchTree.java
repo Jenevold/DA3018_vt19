@@ -1,4 +1,6 @@
 package courseinfo;
+import java.util.NoSuchElementException;
+import java.util.Iterator;
 
 /**
  * Store course information in a binary search tree
@@ -84,7 +86,13 @@ public class BinarySearchTree {
 	 * @return
 	 */
 	public BSTNode find(String courseCode) {
-		return find(root, courseCode);
+		try {
+			return find(root, courseCode);
+		} catch (NullPointerException e) {
+			System.out.println("The course " + courseCode + " not in tree");
+			return null;
+		}
+		//return find(root, courseCode);
 		//return null; // Dummy return value. Should be replaced with a proper algorithm.
 	}
 
@@ -97,7 +105,8 @@ public class BinarySearchTree {
 	private BSTNode find(BSTNode target, String courseCode){
 
 		if (target == null) {
-			return null;
+			//return null;
+            throw new NullPointerException();
 		} else {
 
 			if (courseCode.compareTo(target.getCourseCode()) == 0) { 
@@ -119,16 +128,30 @@ public class BinarySearchTree {
 	 * @return the parent of the node with the matching courseCode
 	 */
 	private BSTNode findParent(BSTNode target, String courseCode) {
-		BSTNode left = target.getLeftChild();
-		BSTNode right = target.getRightChild();
-		if (courseCode.compareTo(left.getCourseCode()) == 0 || courseCode.compareTo(right.getCourseCode()) == 0) {
-			return target;
-		}
-		else if (courseCode.compareTo(target.getCourseCode()) < 0) { // go left
-			return findParent(left, courseCode);
-		}
-		else { 							// go right
-			return findParent(right, courseCode);
+		if (courseCode == target.getCourseCode()) {
+			return null;
+		} else {
+			BSTNode left = target.getLeftChild();
+			BSTNode right = target.getRightChild();
+			if (left==null) {
+				if (courseCode.compareTo(right.getCourseCode()) == 0) {
+					return target;
+				} else {
+					return findParent(right, courseCode);
+				}
+			} else if (right==null) {
+				if (courseCode.compareTo(left.getCourseCode()) == 0 ) {
+					return target;
+				} else {
+					return findParent(left, courseCode);
+				}
+			} else if (courseCode.compareTo(left.getCourseCode()) == 0 || courseCode.compareTo(right.getCourseCode()) == 0) {
+				return target;
+			} else if (courseCode.compareTo(target.getCourseCode()) < 0) { // go left
+				return findParent(left, courseCode);
+			} else { 							// go right
+				return findParent(right, courseCode);
+			}
 		}
 	}
 
@@ -146,6 +169,7 @@ public class BinarySearchTree {
 	}
 
 	/**
+	 * this function looks at the node and detiermines it it in it self is a rigth child of a parent
 	 * isRightChild: Gives true if the right child of node has the given cours code.
 	 * @param node, a BST node
 	 * @param courseCode, e.g 'MM2018'
@@ -166,12 +190,20 @@ public class BinarySearchTree {
 		remove(root, courseCode);
 	}
 
-	private void remove(BSTNode rootNode, String courseCode) {
-		BSTNode target = find(rootNode, courseCode);
-		BSTNode parent = findParent(rootNode, courseCode);
+
+	// delete leftover child
+	private void remove(BSTNode currentNode, String courseCode) {
+		try {
+			find(currentNode, courseCode);
+		} catch (NullPointerException e) {
+			System.out.println("Not possible to remove " + courseCode + ", course not in tree");
+		}
+		BSTNode target = find(currentNode, courseCode);
+		BSTNode parent = findParent(currentNode, courseCode);
 		if (target.getLeftChild() != null && target.getRightChild() != null) {
-		    BSTNode newNode = findSmallest(target.getRightChild());
-		    if (target == rootNode) {
+		    BSTNode newNode = findSmallest(target.getRightChild()); // Find smallest child
+		    remove(target, newNode.getCourseCode()); // Remove smallest child
+		    if (target == currentNode) {
 		    	root = newNode;
 		    	root.setChildren(target.getLeftChild(), target.getRightChild());
 			} else if (isRightChild(parent, courseCode)) {
@@ -182,11 +214,11 @@ public class BinarySearchTree {
 		        newNode.setChildren(target.getLeftChild(), target.getRightChild());
             }
             // Case 1:
-            // The target rootNode that we want to remove have both left and right childes.
+            // The target currentNode that we want to remove have both left and right childes.
             // The smallest leaf in the left sub-tree to target will replace target.
             //
 		} else if (target.getLeftChild()!=null) {
-		    if (target == rootNode) {
+		    if (target == currentNode) {
 		    	root = target.getLeftChild();
 			} else if (isRightChild(parent, courseCode)) {
                 parent.setChildren(parent.getLeftChild(), target.getLeftChild());
@@ -194,11 +226,11 @@ public class BinarySearchTree {
 		        parent.setChildren(target.getLeftChild(), parent.getRightChild());
             }
 			// Case 2:
-            // The target rootNode only has a right child:
-            // Replace target with the right child.
+            // The target currentNode only has a left child:
+            // Replace target with the left child.
             //
 		} else if (target.getRightChild()!=null) {
-			if (target == rootNode) {
+			if (target == currentNode) {
 				root = target.getRightChild();
 			} else if (isRightChild(parent, courseCode)) {
                 parent.setChildren(parent.getLeftChild(), target.getRightChild());
@@ -206,11 +238,11 @@ public class BinarySearchTree {
                 parent.setChildren(target.getRightChild(), parent.getRightChild());
             }
             // Case 3:
-            // The target rootNode only has a left child:
-            // Replace target with the left child
+            // The target currentNode only has a right child:
+            // Replace target with the right child
             //
 		} else {
-			if (target == rootNode) {
+			if (target == currentNode) {
 				root = null;
 			} else if (isRightChild(parent, courseCode)) {
                 parent.setChildren(parent.getLeftChild(), null);
@@ -218,8 +250,8 @@ public class BinarySearchTree {
                 parent.setChildren(null, parent.getRightChild());
             }
             // Case 4:
-            // The target rootNode has no children:
-            // Replace the target rootNode with null.
+            // The target currentNode has no children:
+            // Replace the target currentNode with null.
 		}
 	}
 	
