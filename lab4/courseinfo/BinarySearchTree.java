@@ -8,11 +8,43 @@ import java.util.Iterator;
  */
 public class BinarySearchTree {
 	BSTNode root=null;
-	
 	public BinarySearchTree() {
 		// Constructor: new BinarySearchTree will make an empty BST with a root = null.
 	}
-	
+
+    public BSTIterator iterator() {
+        return new BSTIterator();
+    }
+
+    private class BSTIterator implements String Iterable {
+        private BSTNode current;
+        String[] array;
+        int index;
+
+
+        public BSTIterator() {
+            this.current = root;
+            array = new String[size()];
+            index = 0;
+        }
+
+        public boolean hasNext() {
+            return this.current != null;
+        }
+
+
+        public BSTNode next() {
+            if (this.hasNext()) {
+                String res = this.current.getCourseCode();
+                this.current = this.current.next;
+                return res;
+
+            } else {
+                throw new NoSuchElementException();
+            }
+        }
+    }
+
 	/**
 	 * Public interface for inserting data into the datastructure. Utilizes 
 	 * a private, more technical method.
@@ -254,7 +286,10 @@ public class BinarySearchTree {
             // Replace the target currentNode with null.
 		}
 	}
-	
+
+
+
+
 	/**
 	 * Nodes in the search tree
 	 * This class should be sufficient for the project.
