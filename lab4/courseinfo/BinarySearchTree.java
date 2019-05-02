@@ -6,44 +6,56 @@ import java.util.Iterator;
  * Store course information in a binary search tree
  * where the root is the 'starting point' of the tree.
  */
-public class BinarySearchTree {
+public class BinarySearchTree<BSTNode> implements Iterable<BSTNode> {
 	BSTNode root=null;
 	public BinarySearchTree() {
 		// Constructor: new BinarySearchTree will make an empty BST with a root = null.
 	}
 
-    public BSTIterator iterator() {
-        return new BSTIterator();
-    }
+	/**
+	* implements iterable
+	*/
 
-    private class BSTIterator implements String Iterable {
-        private BSTNode current;
-        String[] array;
-        int index;
-
-
-        public BSTIterator() {
-            this.current = root;
-            array = new String[size()];
-            index = 0;
-        }
-
-        public boolean hasNext() {
-            return this.current != null;
-        }
+	public Iterator<BSTNode> iterator() {
+		return new BSTIterator();
+	}
 
 
-        public BSTNode next() {
-            if (this.hasNext()) {
-                String res = this.current.getCourseCode();
-                this.current = this.current.next;
-                return res;
+	private class BSTIterator implements Iterator<BSTNode> {
+		BSTNode current = root; //root från det binära trädet
+		BSTNode[] array = new BSTNode[size()];
 
-            } else {
-                throw new NoSuchElementException();
-            }
-        }
-    }
+
+		public boolean hasNext(){
+			return this.current != null;
+			}
+
+		public BSTNode next(){
+			if (!this.hasNext()){
+				throw new NoSuchElementException();
+			}
+			current++;
+			BSTNode res = this.getCourseCode();
+
+			return;
+		}
+
+		public void remove() {
+         throw new UnsupportedOperationException();
+      }
+	}
+
+    //     public BSTNode next() {
+    //         if (this.hasNext()) {
+    //             BSTNode res = this.current.getCourseCode();
+    //             this.current = this.current.next;
+    //             return res;
+
+    //         } else {
+    //             throw new NoSuchElementException();
+    //         }
+    //     }
+    // }
 
 	/**
 	 * Public interface for inserting data into the datastructure. Utilizes 
