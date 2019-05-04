@@ -1,4 +1,5 @@
 package courseinfo;
+import java.util.ArrayList;
 import java.util.NoSuchElementException;
 import java.util.Iterator;
 
@@ -6,7 +7,7 @@ import java.util.Iterator;
  * Store course information in a binary search tree
  * where the root is the 'starting point' of the tree.
  */
-public class BinarySearchTree<BSTNode> implements Iterable<BSTNode> {
+public class BinarySearchTree implements Iterable<BinarySearchTree.BSTNode> { //Iterates ove Nodes
 	BSTNode root=null;
 	public BinarySearchTree() {
 		// Constructor: new BinarySearchTree will make an empty BST with a root = null.
@@ -15,47 +16,45 @@ public class BinarySearchTree<BSTNode> implements Iterable<BSTNode> {
 	/**
 	* implements iterable
 	*/
-
-	public Iterator<BSTNode> iterator() {
+	public BSTIterator iterator() {
 		return new BSTIterator();
 	}
 
 
-	private class BSTIterator implements Iterator<BSTNode> {
-		BSTNode current = root; //root från det binära trädet
-		BSTNode[] array = new BSTNode[size()];
+	private class BSTIterator implements Iterator<BSTNode> { //Implements Iterator that iterates over Nodes
+		ArrayList<BSTNode> array; //Uses arrayList to save the order in witch we want to iterate
+		int index;
+		BSTNode current;
+
+		public BSTIterator() { // Konstruktorn
+            index = 0;
+            array = new ArrayList();
+            iterate(root); // Bestämmer itereringsordningen med funktionen iterate genom att kalla på denna med root-noden
+            current = array.get(index); //Efter att iterate skapat en arraylist med alla noder kan current peka på första objektet i listan
+        }
+
+        private void iterate(BSTNode node) { // Iterate tar en "startnod" och sparar ner alla noder i trädet/subbträdet i en arrayList med minsta värdet först
+		    if (node == null) { //När vi stöter på en tom possition återvänder vi
+		        return;
+            }
+		    iterate(node.getLeftChild()); //annars fortsätt ner i vänster
+		    array.add(node); // Addera noden till array list
+		    iterate(node.getRightChild()); // gå sedan höger
+        }
 
 
 		public boolean hasNext(){
 			return this.current != null;
-			}
+			} //Är current null? Denna är fel!
 
-		public BSTNode next(){
-			if (!this.hasNext()){
-				throw new NoSuchElementException();
-			}
-			current++;
-			BSTNode res = this.getCourseCode();
-
-			return;
-		}
-
-		public void remove() {
-         throw new UnsupportedOperationException();
-      }
+		public BSTNode next() {
+            if (!this.hasNext()) {
+                throw new NoSuchElementException(); // om det inte finns en nästa skicka exeption
+            }
+            current = array.get(index++); // Annars är nästa; nästa nod i array
+            return current;
+        }
 	}
-
-    //     public BSTNode next() {
-    //         if (this.hasNext()) {
-    //             BSTNode res = this.current.getCourseCode();
-    //             this.current = this.current.next;
-    //             return res;
-
-    //         } else {
-    //             throw new NoSuchElementException();
-    //         }
-    //     }
-    // }
 
 	/**
 	 * Public interface for inserting data into the datastructure. Utilizes 
@@ -171,7 +170,7 @@ public class BinarySearchTree<BSTNode> implements Iterable<BSTNode> {
 	 * @param courseCode, the course code
 	 * @return the parent of the node with the matching courseCode
 	 */
-	private BSTNode findParent(BSTNode target, String courseCode) {
+	public BSTNode findParent(BSTNode target, String courseCode) {
 		if (courseCode == target.getCourseCode()) {
 			return null;
 		} else {

@@ -24,7 +24,10 @@ public class CourseInfo {
 		courses.insert("34", "Numerisk analys", 7.5);
 		courses.insert("25", "Numerisk analys", 7.5);
 
-
+		for (BinarySearchTree.BSTNode e : courses) {
+			System.out.println(e.getCourseCode());
+		}
+		/*
 		int n = courses.size();
 			System.out.printf("There are %d courses in the database.\n", n);
 			
@@ -57,6 +60,8 @@ public class CourseInfo {
 			{
 				System.out.println("Not in tree");
 			}
+
+		 */
 		
 	}
 
