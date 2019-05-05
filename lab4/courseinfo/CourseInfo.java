@@ -21,11 +21,11 @@ public class CourseInfo {
 				br = new BufferedReader(new FileReader(inFile));
 				String line;
 				while ((line = br.readLine()) != null) {
-					String[] info = new Array(3);
+					String[] info = new String[3];
 					info = line.split(",");
-					String cc = info(0);
-					String cn = info(1);
-					Double cp = Double.parseDouble(info(2));
+					String cc = info[0];
+					String cn = info[1];
+					Double cp = Double.parseDouble(info[2]);
 					courses.insert(cc, cn, cp);
 
 				}
@@ -113,4 +113,4 @@ public class CourseInfo {
 		
 	}
 
-}
+}}
