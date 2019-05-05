@@ -242,10 +242,13 @@ public class BinarySearchTree implements Iterable<BinarySearchTree.BSTNode> { //
 			System.out.println("Not possible to remove " + courseCode + ", course not in tree");
 		}
 		BSTNode target = find(currentNode, courseCode);
+
 		BSTNode parent = findParent(currentNode, courseCode);
+
 		if (target.getLeftChild() != null && target.getRightChild() != null) {
 		    BSTNode newNode = findSmallest(target.getRightChild()); // Find smallest child
 		    remove(target, newNode.getCourseCode()); // Remove smallest child
+
 		    if (target == currentNode) {
 		    	root = newNode;
 		    	root.setChildren(target.getLeftChild(), target.getRightChild());
@@ -258,7 +261,7 @@ public class BinarySearchTree implements Iterable<BinarySearchTree.BSTNode> { //
             }
             // Case 1:
             // The target currentNode that we want to remove have both left and right childes.
-            // The smallest leaf in the left sub-tree to target will replace target.
+            // The smallest leaf in the right sub-tree to target will replace target.
             //
 		} else if (target.getLeftChild()!=null) {
 		    if (target == currentNode) {
