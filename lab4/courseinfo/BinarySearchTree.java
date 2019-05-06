@@ -30,7 +30,7 @@ public class BinarySearchTree implements Iterable<BinarySearchTree.BSTNode> { //
             index = 0;
             array = new ArrayList();
             iterate(root); // Bestämmer itereringsordningen med funktionen iterate genom att kalla på denna med root-noden
-            current = array.get(index); //Efter att iterate skapat en arraylist med alla noder kan current peka på första objektet i listan
+            array.add(null);
         }
 
         private void iterate(BSTNode node) { // Iterate tar en "startnod" och sparar ner alla noder i trädet/subbträdet i en arrayList med minsta värdet först
@@ -44,15 +44,15 @@ public class BinarySearchTree implements Iterable<BinarySearchTree.BSTNode> { //
 
 
 		public boolean hasNext(){
-			return this.current != null;
-			} //Är current null? Denna är fel!
+			return array.get(index) != null;
+			}
 
 		public BSTNode next() {
-            if (!this.hasNext()) {
-                throw new NoSuchElementException(); // om det inte finns en nästa skicka exeption
-            }
-            current = array.get(index++); // Annars är nästa; nästa nod i array
-            return current;
+            if (this.hasNext()) {
+                current = array.get(index);
+                index++; // Annars är nästa; nästa nod i array
+                return current;
+            } throw new NoSuchElementException(); // För att få stopp på loopen?
         }
 	}
 

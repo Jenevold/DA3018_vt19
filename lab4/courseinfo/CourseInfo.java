@@ -5,12 +5,14 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.NoSuchElementException;
 
 
 public class CourseInfo {
 
 	public static void main(String[] args) {
 		BinarySearchTree courses = new BinarySearchTree();
+		/*
 		if (0 < args.length) {
 			File inFile = new File(args[0]);
 
@@ -33,7 +35,7 @@ public class CourseInfo {
 			}
 
 			catch (IOException e) {
-				e.printStackTrace();
+				e.printStackTrace(); //?
 			}
 
 
@@ -47,7 +49,7 @@ public class CourseInfo {
 			// Här skriver vi vad som ska hända om vi anger en fil och en kurskod
 
 		}
-		
+		*/
 
 		/*
 		courses.insert("DA3018", "Computer Science", 7.5);
@@ -56,7 +58,7 @@ public class CourseInfo {
 		courses.insert("MM5014", "Numerisk analys", 7.5);
 		*/
 
-		/*
+
 		courses.insert("10", "Numerisk analys", 7.5);
 		courses.insert("22", "Numerisk analys", 7.5);
 		courses.insert("14", "Numerisk analys", 7.5);
@@ -70,10 +72,16 @@ public class CourseInfo {
 		courses.insert("34", "Numerisk analys", 7.5);
 		courses.insert("25", "Numerisk analys", 7.5);
 
-		for (BinarySearchTree.BSTNode e : courses) {
-			System.out.println(e.getCourseCode());
-		}
-		*/
+
+		//try {
+            for (BinarySearchTree.BSTNode e : courses) {
+                System.out.println(e.getCourseCode());
+            }
+        //} catch (NoSuchElementException e) {
+            //System.out.println("you hit the wall");
+	}
+
+
 
 		/*
 		int n = courses.size();
@@ -111,6 +119,6 @@ public class CourseInfo {
 
 		 */
 		
-	}
+}
 
-}}
+
